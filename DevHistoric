@@ -1,0 +1,105 @@
+
+14 August : projet mis sur git hub ( par github Desktop et utilisant lfs).
+A ce stade, il reste à faire :
+- implementer le CheckPoint
+- faire fonctionner les bonus
+- finir la Scene Menu
+- tutoriel
+- "nettoyer" le code
+- améliorer le decor sur les cotés.
+
+17 Sept:
+TO DO : 
+-implement persistance de données (playerData avec une listOfPlayers et Top3List)
+-valider boite de collisionProxi du personnage (pour check risque de collision donc correct move si évité)
+-calcul Score : f(dist)
+-graphics CheckPoint , start level
+-effets camera 
+-après, autres importants: décor sur les cotés, sons, animations, tuto
+ 23:00 Unity Project- shape restaurée sur git! (par erreur, effacée par un commit)
+
+ 19 Sept:
+ Name Input lu mais pas enregistré (SaveData()).
+
+ 21 Sept:
+Name Input OK; SaveData() reconnait "known player" mail il le rajoute quand-même à la liste listOfPlayers.
+Augmentation auto de la vitesse activée . //trop lente pour l'instant
+Creation d'un dossier local "SpaceSeasons BackUp 21 Sept" ( à noter : ligne File.Delete() oubliée non-commentée dans DataManager.LoadData() )
+Creation des scenes: Accueil, Tutorial, en plus de Menu, GameScene et GameOver
+
+TODO 1: animation Tutorial
+TODO 2: 5 lanes
+TODO 3: modifier mouvements : droite, gauche, saut
+TODO 4: creation pouvoir spécial GivreCeleste 
+TODO 5: activation Bonus
+TODO 6: doc technique
+TODO 7: CheckPoint
+TODO 8: améliorer décor, sons, effets spéciaux collision et GameOver, corriger arbres flottants (identifier ground prefab bugué)
+
+Correction : SaveData() OK, BestPlayer OK. (Pas de bug)
+
+22 Sept Bug SceneTutoriel avec plantage
+messageDebug : boucle infinie while ; groundsOnStage = 4; exit while si Input.GetKey(leftArrow) == true. ? Doute si le Hero bouge (pas de ground détruit dans log), il devait avancer tout seul.
+
+Nouveau test à faire avec affichage de transform.position du Hero 
+
+21:00 Ship bouge mais sans la camera; boucle while infinie Input.getKey(key code) syntaxe à vérifier; bug mais ne plante plus l'ordi
+
+23 Sept
+OK  Scene Tutoriel fonctionne 
+     - à faire : créer un ground adapté pour éviter Obstacle à gauche, collect Cadeau à droite, collect Bonus avec jump, se baisser pour éviter Obstacle
+OK  Persistance des données : input playerName, save player avec Name , Score, et BestScore;
+     - à faire : Update Top3;
+     - à faire : affiche dans la scene GameOver le Score, le BestScore et le BestScore of all
+Ok GameOver Scene affiche le Score, BestScore et BestScore of all players
+
+New bug : après GameOverScene si Retry, erreur sur GameScene : le jeu ne rédémarre pas
+
+24 Sept Refactor GameControler avec GameState.
+Rajout de ground CheckPoint . 
+Bugs à corriger: 
+       - GameOver = true mais le Ship continue à avancer,
+        le Score augmente et des joueurs sont rajoutés.
+       - après GameOver,  le restart du jeu (par scene GameScene) ne fonctionne pas : 
+         bug = " 2 audio Listeners";  Ship dontDestroy?
+
+25 Sept : TODO List
+  TODO1: Scene GameScene approche de Check Point et arrêt au Check Point
+  TODO2: Stop add Score et players après GameOver (pendant wait coroutine avant de passer à la 
+         Scene GameOver
+  TODO3: FreezeGun; Bonus; decor dans l'espace; améliorer traineau et perso
+
+26 Sept : Gamestate pas bon car BeforeLevel doit avoir une scene propre.
+  Bug Distance figée à 946, plus d'update, Ship continue d'avancer et message erreur car plus de ground onStage (plus d'Instanciate après DistanceRun + 4 groundLength, Destroy des anciens)
+
+29 Sept: DataManager corrigé
+    Le jeu fonctionne.
+ - passage au next level OK
+ - button restart en GameOverScene OK
+
+TODO: - nettoyage du code (beaucoup de lignes commentées, versions non-retenues;
+      - petit bug au check Point (1 sec de piste éloignée avant new Level);
+      - activer Bonus
+ 
+Modification du déplacement sur input du joueur: mouvement latéral sur 5 lanes; la Main Camera n'est plus attachée au ShipObject, elle a un script propre pour le suivre et avoir une hauteur propre
+
+Ajout de AudioSource au ShipObject dans la scene GameScene et de la méthode PlayMusic(int piste) en ShipController.cs : les collisions font du bruit (différent pour collect ou collision avec obstacle).
+
+Superpouvoir Frozen activé, fonctionne; 3 charges (initialisées au début du niveau), permet de passe à travers des obstacles.
+
+30 Sept : Refactor GameController et ScriptBonus: nouvelle classe publique BonusClass dans GameController.cs.
+Le bouton Bonus (GUI dans GameScene) appelle maintenant la méthode ActivateBonus() de GameController.
+
+
+
+
+
+
+
+
+  
+     
+ 
+
+ 
+

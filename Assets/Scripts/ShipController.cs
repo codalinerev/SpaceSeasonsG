@@ -250,12 +250,8 @@ public class ShipController : MonoBehaviour
         //****** vérifie si collision avec cadeau ou obstacle ou bonus; 
         if ((other.tag == "bonus") && (state == GameState.Play))
         {
-            int rint = UnityEngine.Random.Range(0,5); // choix au hazard du type de bonus
-            if (rint == 0) GameControler.Instance.bonusGC.bonusType = GameControler.BonusClass.BonusType.health;
-            else if (rint == 1) GameControler.Instance.bonusGC.bonusType = GameControler.BonusClass.BonusType.slow;
-            else if (rint == 2) GameControler.Instance.bonusGC.bonusType = GameControler.BonusClass.BonusType.money;
-            else if (rint == 3) GameControler.Instance.bonusGC.bonusType = GameControler.BonusClass.BonusType.magnetic;
-            else GameControler.Instance.bonusGC.bonusType = GameControler.BonusClass.BonusType.invulnerable;
+            GameControler.Instance.bonusGC.bonusType = GameControler.BonusClass.BonusType.invulnerable;
+            Debug.Log("bonus collected: type " + GameControler.Instance.bonusGC.bonusType + "state " + GameControler.Instance.bonusGC.state);
 
             GameControler.Instance.corectMoves += 1;
             GameControler.Instance.comboTimer = 0;
@@ -264,7 +260,9 @@ public class ShipController : MonoBehaviour
         }
         else if ((other.tag == "obstacle") && (state == GameState.Play))
         {
-            GameControler.Instance.health -= 10;
+            if (!((GameControler.Instance.bonusGC.bonusType == GameControler.BonusClass.BonusType.invulnerable)
+             && (GameControler.Instance.bonusGC.state == GameControler.BonusClass.BonusStatus.active)))
+            { GameControler.Instance.health -= 10; }
             Debug.Log("Collision " + other.name);
             GameControler.Instance.corectMoves = 0;
             GameControler.Instance.comboTimer = 0;

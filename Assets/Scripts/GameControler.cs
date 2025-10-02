@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -160,7 +161,7 @@ public class GameControler : MonoBehaviour
         posZ = Ship.transform.position.z;
         currentSpeed = Ship.GetComponent<ShipController>().currentSpeed;
         bonusGC = new BonusClass();
-        bonusGC.bonusType = BonusClass.BonusType.magnetic;
+        bonusGC.bonusType = BonusClass.BonusType.noBonus;
         bonusState.text = bonusGC.state.ToString();
         bonusType.text = bonusGC.bonusType.ToString();
 
@@ -230,11 +231,11 @@ public class GameControler : MonoBehaviour
     public void UpdateBonus()
     {
         //bonusGC.type = bonusCollected.name;
-        bonusState.text = bonusGC.state.ToString();
-        bonusType.text = bonusGC.bonusType.ToString();
-        if (bonusGC.timer > 0) // donc bonus actif
+        
+        if (bonusGC.state == BonusClass.BonusStatus.active)
         {
-            if (bonusGC.timer < 1.5)
+            bonusGC.timer += Time.deltaTime;
+            if (bonusGC.timer < 4)
             {
                 bonusGC.timer += Time.deltaTime;
                 Debug.Log("timer du bonus : " + bonusGC.timer);
@@ -247,8 +248,9 @@ public class GameControler : MonoBehaviour
                 bonusGC.bonusType = BonusClass.BonusType.noBonus;
                 Debug.Log(" timer fini");
             }
-            
         }
+        bonusState.text = "BONUS " + "\n" + bonusGC.state.ToString() + "\n " + System.Math.Round(GameControler.Instance.bonusGC.timer, 1);
+        bonusType.text = bonusGC.bonusType.ToString();
 
     }
     void UpdateScore()
@@ -434,7 +436,7 @@ public class GameControler : MonoBehaviour
 
         public void ActionInvulnerable()
         {
-            timer += Time.deltaTime; // va agir pendant 1.5 sec à partir de cet instant
+            timer += 0; // va agir pendant 1.5 sec à partir de cet instant
             state = BonusStatus.active;
             bonusType = BonusType.invulnerable;
          }
@@ -449,6 +451,7 @@ public class GameControler : MonoBehaviour
 
         public void Activate()
         {
+            timer = 0;
             if (bonusType == BonusType.health)
             {
                 Debug.Log("health bonus activated");
@@ -464,10 +467,10 @@ public class GameControler : MonoBehaviour
                 Debug.Log("magnetic bonus activated");
                 ActionMagnetic();
             }
-            else if (bonusType == BonusType.money)
+            else if (bonusType == BonusType.invulnerable)
             {
-                Debug.Log("money bonus activated");
-                ActionMoney();
+                Debug.Log("invulnerable bonus activated");
+                ActionInvulnerable();
             }
             else
             {

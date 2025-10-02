@@ -96,8 +96,8 @@ public class GameControler : MonoBehaviour
         {
             int randomIndex = UnityEngine.Random.Range(0, groundsPrefabs.Length);
             //Debug.Log("in for i>numberOfGrounds");
-            //GameObject ground = Instantiate(groundsPrefabs[randomIndex]);
-            GameObject ground = Instantiate(groundsPrefabs[0]);
+            GameObject ground = Instantiate(groundsPrefabs[randomIndex]);
+            //GameObject ground = Instantiate(groundsPrefabs[0]);
             ground.transform.position = new Vector3(0, 0.4f, i * 60);
             //Debug.Log("GC 96: pos " + pos.z);
             for(int j = 0;  j < noObstacles;  j++) SpawnObstacles(ground.transform.position);
@@ -137,7 +137,7 @@ public class GameControler : MonoBehaviour
         GameOver = false;
  //************* init paramètres de niveau ****************************************************
         toCollect = 5 + (Level + levelUser - 1) * 5; // par niveau
-        noCadeaux = 4 + (int)(Level + 1 ) /4; // spawn pour chaque ground
+        noCadeaux = 2 + Level; // spawn pour chaque ground
         Debug.Log("no cadeaux : " + noCadeaux);
         noObstacles = Level ; // pour chaque ground
         Debug.Log("no obstacles : " + noObstacles);
@@ -310,8 +310,8 @@ public class GameControler : MonoBehaviour
                     float z = ground.transform.position.z;
 
                     int randomIndex = UnityEngine.Random.Range(0, groundsPrefabs.Length);//** choix d'un prefab ground *                                                                                    
-                    //GameObject newGround = Instantiate(groundsPrefabs[randomIndex]);// création de nouveau ground *****************
-                    GameObject newGround = Instantiate(groundsPrefabs[0]);
+                    GameObject newGround = Instantiate(groundsPrefabs[randomIndex]);// création de nouveau ground *****************
+                    //GameObject newGround = Instantiate(groundsPrefabs[0]);
                     newGround.transform.position = new Vector3(0, 0f, z + 60 * numberOfGrounds);
                     for (int j = 0; j < noCadeaux; j++) { SpawnCadeaux(newGround.transform.position); Debug.Log("cadeau spawned"); }
                     for (int j = 0; j < noBonus; j++) { SpawnBonus(newGround.transform.position); Debug.Log("bonus spawned"); }

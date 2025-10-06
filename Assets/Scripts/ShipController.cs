@@ -260,15 +260,18 @@ public class ShipController : MonoBehaviour
         }
         else if ((other.tag == "obstacle") && (state == GameState.Play))
         {
+            // si bonus Invulnerable activé, la collision est ignorée
             if (!((GameControler.Instance.bonusGC.bonusType == GameControler.BonusClass.BonusType.invulnerable)
              && (GameControler.Instance.bonusGC.state == GameControler.BonusClass.BonusStatus.active)))
-            { GameControler.Instance.health -= 10; }
-            Debug.Log("Collision " + other.name);
-            GameControler.Instance.corectMoves = 0;
-            GameControler.Instance.comboTimer = 0;
-            GameControler.Instance.combo = 1;
-            MusicPlay(1);
-            Debug.Log("playing sound collision");
+            {
+                GameControler.Instance.health -= 10;
+                Debug.Log("Collision " + other.name);
+                GameControler.Instance.corectMoves = 0;
+                GameControler.Instance.comboTimer = 0;
+                GameControler.Instance.combo = 1;
+                MusicPlay(1);
+                Debug.Log("playing sound collision");
+            }
         }
         else if ((other.tag == "cadeau") && (state == GameState.Play))
         {

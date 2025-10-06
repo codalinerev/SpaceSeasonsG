@@ -95,12 +95,14 @@ public class GameControler : MonoBehaviour
         for (int i = 0; i < numberOfGrounds; i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, groundsPrefabs.Length);
-            //Debug.Log("in for i>numberOfGrounds");
             GameObject ground = Instantiate(groundsPrefabs[randomIndex]);
-            //GameObject ground = Instantiate(groundsPrefabs[0]);
             ground.transform.position = new Vector3(0, 0.4f, i * 60);
+            // pas de spawn tout au début du terrain
+            if (i == 0)
+                pos = new Vector3(ground.transform.position.x, ground.transform.position.y, ground.transform.position.z + 20);
+            else pos = ground.transform.position;
             //Debug.Log("GC 96: pos " + pos.z);
-            for(int j = 0;  j < noObstacles;  j++) SpawnObstacles(ground.transform.position);
+            for (int j = 0; j < noObstacles; j++) SpawnObstacles(pos);
             Debug.Log("spawn obstacle");
             for(int j = 0;  j < noCadeaux;  j++) SpawnCadeaux(ground.transform.position);
             for(int j = 0;  j < noBonus;  j++) SpawnBonus(ground.transform.position);          
@@ -151,6 +153,8 @@ public class GameControler : MonoBehaviour
         combo = 1;
         currentCombo = combo;
         comboTimer = 0f;
+        corectMoves = 0;
+        ScoreFinal += Score;
         Score = 0;
         //GOReason = " ";
         Ship = GameObject.Find("ShipObject");
@@ -223,7 +227,7 @@ public class GameControler : MonoBehaviour
         }
         else if (state == GameState.Pause)
         {
-            Debug.Log("game paused 5 sec");
+            Debug.Log("game paused 5 sec"); // pas developpé
             //StartCoroutine(Wait5Seconds());
         }
     }
@@ -253,7 +257,7 @@ public class GameControler : MonoBehaviour
         bonusType.text = bonusGC.bonusType.ToString();
 
     }
-    void UpdateScore()
+    void UpdateScore() // update le Score affiché sur la UI, en fonction de la distance parcourue
     {
         if (Ship != null) Distance = (int)(Ship.transform.position.z); // % DistanceRun;
         var = (int)((Distance - lastDistance) * combo);
@@ -295,8 +299,6 @@ public class GameControler : MonoBehaviour
     void UpdateTerrain()
     {
         Debug.Log("UpdateTerrain");
-        //Debug.Log("GC 219: ground.pos.z " + pos.z);
-        //UpdateHealth();
         if ((Ship != null) && (Ship.transform.position.z < DistanceRun))
         {
             for (int i = numberOfGrounds - 1; i >= 0; i--)
@@ -332,13 +334,13 @@ public class GameControler : MonoBehaviour
         SceneManager.LoadScene("GameOverScene");
     }
     void GameOverMethod(string Reason)
-    {
-        Debug.Log("GameOver; Score final: " + Score);
-        //ScoreFinal += Score;
+    {       
+        ScoreFinal += Score;
+        Debug.Log("GameOver; Score final: " + ScoreFinal);
         if (Ship != null) Ship.GetComponent<ShipController>().moveSpeed = 0;
 
         textGO.text = "GAME OVER" + "\n" + Reason;
-        scoreFinal.text = " SCORE FINAL : " + Score.ToString();
+        scoreFinal.text = " SCORE FINAL : " + ScoreFinal.ToString();
         DataManager.Instance.player.Score = Score;
         ArchiveScore();
         //message = RetrieveScore();

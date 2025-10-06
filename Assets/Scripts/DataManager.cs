@@ -132,7 +132,7 @@ public class DataManager : MonoBehaviour
     }
     public void SaveData()
     {
-        if (playerName == "") player.Name = "Unknown";
+        if (playerName == "") playerName = "Unknown";
         Debug.Log("165 Name " + playerName);
         oPlayerData = LoadData();
 
@@ -195,10 +195,9 @@ public class DataManager : MonoBehaviour
         File.WriteAllText(path, json);
         Debug.Log("182 Data saved json" + json);
         Debug.Log("Best Player Score : " + oPlayerData.BestPlayer.BestScore);
+        Debug.Log("Best Player: " + oPlayerData.BestPlayer.Name + " with " + oPlayerData.BestPlayer.Score + " points");
         bestPlayerText = "Best Player: " + oPlayerData.BestPlayer.Name + " with " + oPlayerData.BestPlayer.BestScore + " points";
         YourBestScore = "Your Best Score: " + player.BestScore + " points";
-        Debug.Log("Best Player: " + oPlayerData.BestPlayer.Name + " with " + oPlayerData.BestPlayer.Score + " points");
-
     }
     public void UpdatePlayerData()
     {

@@ -90,6 +90,8 @@ Superpouvoir Frozen activé, fonctionne; 3 charges (initialisées au début du n
 30 Sept : Refactor GameController et ScriptBonus: nouvelle classe publique BonusClass dans GameController.cs.
 Le bouton Bonus (GUI dans GameScene) appelle maintenant la méthode ActivateBonus() de GameController.
 
+6 Oct Correction du calcul du score (scoreFinal + score du dernier niveau).
+
 
 
 

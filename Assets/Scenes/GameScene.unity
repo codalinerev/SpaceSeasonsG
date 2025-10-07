@@ -153,8 +153,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 411.63, y: -100.7834}
-  m_SizeDelta: {x: 130.76, y: 24.5823}
+  m_AnchoredPosition: {x: 382.86, y: -98.6794}
+  m_SizeDelta: {x: 141.22, y: 24.5823}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1735486
 MonoBehaviour:
@@ -3721,9 +3721,6 @@ MonoBehaviour:
   CheckPointPrefab: {fileID: 2166514388345620643, guid: 07d314383c97d4add803fe3efd5d5361, type: 3}
   groundsPrefabs:
   - {fileID: 1054604788536377171, guid: e32e4f63386c04256880ef7658ad4ab2, type: 3}
-  - {fileID: 1054604788536377171, guid: e32e4f63386c04256880ef7658ad4ab2, type: 3}
-  - {fileID: 3516773841687859493, guid: 78e5b8778450e40c9a98cdfe89218bfc, type: 3}
-  - {fileID: 1347561142888105676, guid: a6b1eab98fac248ecb8097e5bc0f16ac, type: 3}
   bonusPrefabs:
   - {fileID: 694365346558819137, guid: 3360f01af25fd42f89f4ed5b8107a867, type: 3}
   cadeauPrefabs:
@@ -3734,6 +3731,8 @@ MonoBehaviour:
   - {fileID: 2015654808281414267, guid: 3f7c4eb382ddb4a00862a12db5a5f6eb, type: 3}
   - {fileID: 510925736127125250, guid: 9a38f332c029d4ad487e2bc61c0ae37d, type: 3}
   - {fileID: 1759355111384021007, guid: 7fb3021e0c1b648d6a283e7c5d75d561, type: 3}
+  - {fileID: 4588216113803210460, guid: cc40aa65aff4644fb9302f07a73411ca, type: 3}
+  - {fileID: 1489176454542996184, guid: 612e48a243d404c9baa6b47979548462, type: 3}
   HealthRed: {fileID: 2131025147}
   HealthGreen: {fileID: 93865021}
   message: azerty

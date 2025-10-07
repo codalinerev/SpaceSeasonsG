@@ -99,7 +99,7 @@ public class GameControler : MonoBehaviour
             ground.transform.position = new Vector3(0, 0.4f, i * 60);
             // pas de spawn tout au début du terrain
             if (i == 0)
-                pos = new Vector3(ground.transform.position.x, ground.transform.position.y, ground.transform.position.z + 20);
+                pos = new Vector3(ground.transform.position.x, ground.transform.position.y, ground.transform.position.z + 30);
             else pos = ground.transform.position;
             //Debug.Log("GC 96: pos " + pos.z);
             for (int j = 0; j < noObstacles; j++) SpawnObstacles(pos);
@@ -238,7 +238,7 @@ public class GameControler : MonoBehaviour
         
         if (bonusGC.state == BonusClass.BonusStatus.active)
         {
-            bonusGC.timer += Time.deltaTime;
+            // timer fixé à 4 sec;
             if (bonusGC.timer < 4)
             {
                 bonusGC.timer += Time.deltaTime;
@@ -306,20 +306,21 @@ public class GameControler : MonoBehaviour
                 Debug.Log("in update terrain");
                 GameObject ground = groundsOnStage[i];
                 //Debug.Log("ground = ground on stage");
+                // *** test si le ground est resté derrière Ship ********
                 if (ground.transform.position.z + 40 < Ship.transform.position.z - 6)
                 {
                     //Debug.Log("if in updateTerrain");
                     float z = ground.transform.position.z;
 
-                    int randomIndex = UnityEngine.Random.Range(0, groundsPrefabs.Length);//** choix d'un prefab ground *                                                                                    
-                    GameObject newGround = Instantiate(groundsPrefabs[randomIndex]);// création de nouveau ground *****************
+                    //int randomIndex = UnityEngine.Random.Range(0, groundsPrefabs.Length);//** choix d'un prefab ground *                                                                                    
+                    //GameObject newGround = Instantiate(groundsPrefabs[randomIndex]);// création de nouveau ground *****************
                     //GameObject newGround = Instantiate(groundsPrefabs[0]);
-                    newGround.transform.position = new Vector3(0, 0f, z + 60 * numberOfGrounds);
-                    for (int j = 0; j < noCadeaux; j++) { SpawnCadeaux(newGround.transform.position); Debug.Log("cadeau spawned"); }
-                    for (int j = 0; j < noBonus; j++) { SpawnBonus(newGround.transform.position); Debug.Log("bonus spawned"); }
-                    for (int j = 0; j < noObstacles; j++) { SpawnObstacles(newGround.transform.position); Debug.Log("cobstacle spawned"); }
-                    Destroy(ground); //** destruction du ground testé ************************************************
-                    groundsOnStage[i] = newGround;
+                    ground.transform.position = new Vector3(0, 0f, z + 60 * numberOfGrounds);
+                    for (int j = 0; j < noCadeaux; j++) { SpawnCadeaux(ground.transform.position); Debug.Log("cadeau spawned"); }
+                    for (int j = 0; j < noBonus; j++) { SpawnBonus(ground.transform.position); Debug.Log("bonus spawned"); }
+                    for (int j = 0; j < noObstacles; j++) { SpawnObstacles(ground.transform.position); Debug.Log("cobstacle spawned"); }
+                    //Destroy(ground); //** destruction du ground testé ************************************************
+                    groundsOnStage[i] = ground;
                 }
             }
         }
@@ -412,25 +413,31 @@ public class GameControler : MonoBehaviour
     
         public void ActionHealth()
         {
+            // ce bonus augmente health de 50 (maximum 100) puis se désactive tout de suite
             if (GameControler.Instance.health + 50 > 100) { GameControler.Instance.health = 100; }
             else GameControler.Instance.health += 50;
             Debug.Log("health added 50");
+            // desactivation
             state = BonusStatus.noBonus;
             bonusType = BonusType.noBonus;
         }
 
         public void ActionMagnetic()
         {
-            GameObject[] magnetic; // se desactive tout de suite
+            // agit puis se desactive tout de suite
+            // il trouve et collecte tous les cadeaux présents (sur les 4 grounds)
+            GameObject[] magnetic; // 
             magnetic = GameObject.FindGameObjectsWithTag("cadeau");
             Debug.Log("collected magnétisés : " + magnetic.Length);
             GameControler.collected += magnetic.Length;
-            state = BonusStatus.noBonus;
+            // desactivation
+            state = BonusStatus.noBonus; 
             bonusType = BonusType.noBonus;
         }
 
         public void ActionSlow()
         {
+            // action non-implemntée
             timer += Time.deltaTime;
             state = BonusStatus.active;
             bonusType = BonusType.slow;           
@@ -438,7 +445,7 @@ public class GameControler : MonoBehaviour
 
         public void ActionInvulnerable()
         {
-            timer += 0; // va agir pendant 1.5 sec à partir de cet instant
+            timer = 0; // va agir pendant 4 sec à partir de cet instant
             state = BonusStatus.active;
             bonusType = BonusType.invulnerable;
          }
@@ -456,33 +463,34 @@ public class GameControler : MonoBehaviour
             timer = 0;
             if (bonusType == BonusType.health)
             {
-                Debug.Log("health bonus activated");
+                Debug.Log("health bonus activated"); //message pour debug
                 ActionHealth();
             }
             else if (bonusType == BonusType.slow)
             {
-                Debug.Log("slow bonus activated");
+                Debug.Log("slow bonus activated"); // debug
                 ActionSlow();
             }
             else if (bonusType == BonusType.magnetic)
             {
-                Debug.Log("magnetic bonus activated");
+                Debug.Log("magnetic bonus activated"); // debug
                 ActionMagnetic();
             }
             else if (bonusType == BonusType.invulnerable)
             {
-                Debug.Log("invulnerable bonus activated");
+                Debug.Log("invulnerable bonus activated"); // debug
                 ActionInvulnerable();
             }
             else
             {
-                Debug.Log("No bonus collected");
+                Debug.Log("No bonus collected"); // debug
             }
         }
     }
   
     public void ActivateBonus()
     {
+        // fonction appellée par le bouton Bonus de la UI
         bonusGC.Activate();
     }
     
